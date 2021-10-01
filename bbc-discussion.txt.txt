@@ -1,0 +1,2 @@
+a) According to the bar chart in step 2, the classes in this dataset seem almost equally represented and they are equally important, so accuracy is a good measure for the success of this model.
+b) Accuracy seems slightly more with smoothing value of 0.0001 (%97.7), while in other models it is almost the same (%97). Based on the size of the dataset, a smaller value is more appropriate and smoothing will have less side effects.

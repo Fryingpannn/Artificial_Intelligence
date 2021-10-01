@@ -1,0 +1,128 @@
+(a) ************** Multi-nomialNB default values, try 1
+(b) confusion matrix:
+[91  0  2  0  3]
+[ 0 70  2  0  2]
+[ 0  0 89  0  0]
+[  0   0   1 100   0]
+[ 0  3  0  0 82]
+
+(c) report:
+               precision    recall  f1-score   support
+
+     business       1.00      0.95      0.97        96
+entertainment       0.96      0.95      0.95        74
+     politics       0.95      1.00      0.97        89
+        sport       1.00      0.99      1.00       101
+         tech       0.94      0.96      0.95        85
+
+     accuracy                           0.97       445
+    macro avg       0.97      0.97      0.97       445
+ weighted avg       0.97      0.97      0.97       445
+
+(d) accuracy: 0.9707865168539326     macro-average F1: 0.9693667655619687     weighted-average F1: 0.9708352261416882
+(e) Prior Probabilites:
+Business: 0.2292134831460674     Entertainment: 0.17348314606741572     Politics: 0.18741573033707865     Sports: 0.22966292134831462     Tech: 0.1802247191011236
+(f) vocabulary size: 29421
+(g) word token per class:
+business : 164663     entertainment : 124893     politics : 185208     sport : 162953     tech : 198640     
+(h) Total word count: 836357
+(i) Number and percentage of words wit frequency of 0: 
+Business: 17538 (%0.5961048230855511)        Entertainment: 17746 (%0.6031746031746031)        Politics: 18201 (%0.6186397471194045)        Sports: 18850 (%0.6406988205703409)        Tech: 17323 (%0.5887971177050406)
+(j) Number and percentage of words wit frequency of 1 in the entire dataset: 10005 (%0.34006322014887325)
+(k) Love: -3.743414748848187   Hate: -4.922391696141356
+(a) ************** Multi-nomialNB default values, try 2
+(b) confusion matrix:
+[91  0  2  0  3]
+[ 0 70  2  0  2]
+[ 0  0 89  0  0]
+[  0   0   1 100   0]
+[ 0  3  0  0 82]
+
+(c) report:
+               precision    recall  f1-score   support
+
+     business       1.00      0.95      0.97        96
+entertainment       0.96      0.95      0.95        74
+     politics       0.95      1.00      0.97        89
+        sport       1.00      0.99      1.00       101
+         tech       0.94      0.96      0.95        85
+
+     accuracy                           0.97       445
+    macro avg       0.97      0.97      0.97       445
+ weighted avg       0.97      0.97      0.97       445
+
+(d) accuracy: 0.9707865168539326     macro-average F1: 0.9693667655619687     weighted-average F1: 0.9708352261416882
+(e) Prior Probabilites:
+Business: 0.2292134831460674     Entertainment: 0.17348314606741572     Politics: 0.18741573033707865     Sports: 0.22966292134831462     Tech: 0.1802247191011236
+(f) vocabulary size: 29421
+(g) word token per class:
+business : 164663     entertainment : 124893     politics : 185208     sport : 162953     tech : 198640     
+(h) Total word count: 836357
+(i) Number and percentage of words wit frequency of 0: 
+Business: 17538 (%0.5961048230855511)        Entertainment: 17746 (%0.6031746031746031)        Politics: 18201 (%0.6186397471194045)        Sports: 18850 (%0.6406988205703409)        Tech: 17323 (%0.5887971177050406)
+(j) Number and percentage of words wit frequency of 1 in the entire dataset: 10005 (%0.34006322014887325)
+(k) Love: -3.743414748848187   Hate: -4.922391696141356
+(a) ************** Multi-nomialNB with smoothing = 0.0001
+(b) confusion matrix:
+[91  1  2  0  2]
+[ 0 73  0  0  1]
+[ 0  0 89  0  0]
+[  0   0   1 100   0]
+[ 1  2  0  0 82]
+
+(c) report:
+               precision    recall  f1-score   support
+
+     business       0.99      0.95      0.97        96
+entertainment       0.96      0.99      0.97        74
+     politics       0.97      1.00      0.98        89
+        sport       1.00      0.99      1.00       101
+         tech       0.96      0.96      0.96        85
+
+     accuracy                           0.98       445
+    macro avg       0.98      0.98      0.98       445
+ weighted avg       0.98      0.98      0.98       445
+
+(d) accuracy: 0.9775280898876404     macro-average F1: 0.9769149224111568     weighted-average F1: 0.9774948566195429
+(e) Prior Probabilites:
+Business: 0.2292134831460674     Entertainment: 0.17348314606741572     Politics: 0.18741573033707865     Sports: 0.22966292134831462     Tech: 0.1802247191011236
+(f) vocabulary size: 29421
+(g) word token per class:
+business : 164663     entertainment : 124893     politics : 185208     sport : 162953     tech : 198640     
+(h) Total word count: 836357
+(i) Number and percentage of words wit frequency of 0: 
+Business: 17538 (%0.5961048230855511)        Entertainment: 17746 (%0.6031746031746031)        Politics: 18201 (%0.6186397471194045)        Sports: 18850 (%0.6406988205703409)        Tech: 17323 (%0.5887971177050406)
+(j) Number and percentage of words wit frequency of 1 in the entire dataset: 10005 (%0.34006322014887325)
+(k) Love: -3.743414748848187   Hate: -4.922391696141356
+(a) ************** Multi-nomialNB with smoothing = 0.9
+(b) confusion matrix:
+[91  0  2  0  3]
+[ 0 70  2  0  2]
+[ 0  0 89  0  0]
+[  0   0   1 100   0]
+[ 0  3  0  0 82]
+
+(c) report:
+               precision    recall  f1-score   support
+
+     business       1.00      0.95      0.97        96
+entertainment       0.96      0.95      0.95        74
+     politics       0.95      1.00      0.97        89
+        sport       1.00      0.99      1.00       101
+         tech       0.94      0.96      0.95        85
+
+     accuracy                           0.97       445
+    macro avg       0.97      0.97      0.97       445
+ weighted avg       0.97      0.97      0.97       445
+
+(d) accuracy: 0.9707865168539326     macro-average F1: 0.9693667655619687     weighted-average F1: 0.9708352261416882
+(e) Prior Probabilites:
+Business: 0.2292134831460674     Entertainment: 0.17348314606741572     Politics: 0.18741573033707865     Sports: 0.22966292134831462     Tech: 0.1802247191011236
+(f) vocabulary size: 29421
+(g) word token per class:
+business : 164663     entertainment : 124893     politics : 185208     sport : 162953     tech : 198640     
+(h) Total word count: 836357
+(i) Number and percentage of words wit frequency of 0: 
+Business: 17538 (%0.5961048230855511)        Entertainment: 17746 (%0.6031746031746031)        Politics: 18201 (%0.6186397471194045)        Sports: 18850 (%0.6406988205703409)        Tech: 17323 (%0.5887971177050406)
+(j) Number and percentage of words wit frequency of 1 in the entire dataset: 10005 (%0.34006322014887325)
+(k) Love: -3.743414748848187   Hate: -4.922391696141356
