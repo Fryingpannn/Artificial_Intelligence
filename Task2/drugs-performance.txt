@@ -1,0 +1,96 @@
+Q7)
+
+NB:
+	a) Gaussian Naive Bayes (default parameters)
+
+	b) Confusion matrix: 
+	array([[ 6,  0,  0,  0,  0],
+	       [ 0,  3,  0,  0,  0],
+	       [ 0,  0,  7,  0,  0],
+	       [ 0,  0,  0, 11,  1],
+	       [ 1,  0,  2,  0, 19]])
+
+	c) and d)
+				 precision   recall   f1-score
+
+	       drugA       0.86      1.00      0.92        
+	       drugB       1.00      1.00      1.00        
+	       drugC       0.78      1.00      0.88        
+	       drugX       1.00      0.92      0.96        
+	       drugY       0.95      0.86      0.90        
+
+	    accuracy                           0.92        
+	   macro avg       0.92      0.96      0.93        
+	weighted avg       0.93      0.92      0.92    
+
+Base-DT:
+	a) Base Decision Tree (default parameters)
+
+	b) Confusion matrix:
+	array([[ 6,  0,  0,  0,  0],
+	       [ 0,  3,  0,  0,  0],
+	       [ 0,  0,  7,  0,  0],
+	       [ 0,  0,  0, 11,  1],
+	       [ 0,  0,  0,  0, 22]])
+
+	c) and d)
+	              precision    recall  f1-score   
+
+	       drugA       1.00      1.00      1.00        
+	       drugB       1.00      1.00      1.00        
+	       drugC       1.00      1.00      1.00        
+	       drugX       1.00      0.92      0.96        
+	       drugY       0.96      1.00      0.98        
+
+	    accuracy                           0.98        
+	   macro avg       0.99      0.98      0.99        
+	weighted avg       0.98      0.98      0.98     
+
+Top-DT:
+
+PER:
+	a) Perceptron (default parameters)
+
+	b) Confusion matrix:
+	array([[ 6,  0,  0,  0,  0],
+       [ 0,  3,  0,  0,  0],
+       [ 0,  0,  7,  0,  0],
+       [ 0,  0,  0, 11,  1],
+       [ 1,  0,  2,  0, 19]])
+
+    c) and d)
+	                  precision    recall  f1-score   
+
+	       drugA       0.00      0.00      0.00        
+	       drugB       0.00      0.00      0.00        
+	       drugC       0.00      0.00      0.00        
+	       drugX       0.50      0.75      0.60        
+	       drugY       0.69      1.00      0.81        
+
+	    accuracy                           0.62        
+	   macro avg       0.24      0.35      0.28        
+	weighted avg       0.42      0.62      0.50 
+
+Base-MLP:
+
+	a) Base Multi-layered Perceptron (1 hidden layer of 100 neurons, logistic activation function and stochoastic gradient descent)
+
+	b) Confusion matrix:
+	array([[ 0,  0,  0,  1,  5],
+       [ 0,  0,  0,  2,  1],
+       [ 0,  0,  0,  4,  3],
+       [ 0,  0,  0,  8,  4],
+       [ 0,  0,  0,  0, 22]])
+
+    c) and d)
+	                  precision    recall  f1-score   
+
+	       drugA       0.00      0.00      0.00        
+	       drugB       0.00      0.00      0.00        
+	       drugC       0.00      0.00      0.00        
+	       drugX       0.53      0.67      0.59        
+	       drugY       0.63      1.00      0.77        
+
+	    accuracy                           0.60        
+	   macro avg       0.23      0.33      0.27        
+	weighted avg       0.40      0.60      0.48        
