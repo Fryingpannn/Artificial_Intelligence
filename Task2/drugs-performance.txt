@@ -1,4 +1,4 @@
-Q7)
+QUESTION 7)
 
 NB:
 	a) Gaussian Naive Bayes (default parameters)
@@ -157,6 +157,65 @@ Top-MLP:
 
 	    accuracy                           0.86        
 	   macro avg       0.70      0.74      0.71        
-	weighted avg       0.81      0.86      0.83              
+	weighted avg       0.81      0.86      0.83 
 
+********************************************************************
+
+QUESTION 8)
+
+[10 iterations]
+
+Naive-Bayes -> No change
+----------------------------------------
+Accuracy Average:  70.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  0.7494949494949494
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  0.7046464646464645
+F1 Weighted Standard deviation:  0.0
+
+Base Decision Tree -> No change
+----------------------------------------
+Accuracy Average:  70.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  0.7494949494949494
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  0.7046464646464645
+F1 Weighted Standard deviation:  0.0
+
+Top Decision Tree -> No change
+----------------------------------------
+Accuracy Average:  70.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  0.7494949494949494
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  0.7046464646464645
+F1 Weighted Standard deviation:  0.0
+
+Perceptron -> No change
+----------------------------------------
+Accuracy Average:  70.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  0.7494949494949494
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  0.7046464646464645
+F1 Weighted Standard deviation:  0.0
+
+Base Multi-layered Perceptron -> No change
+----------------------------------------
+Accuracy Average:  70.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  0.7494949494949494
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  0.7046464646464645
+F1 Weighted Standard deviation:  0.0
+
+Top Multi-layered Perceptron -> No change
+----------------------------------------
+Accuracy Average:  70.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  0.7494949494949494
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  0.7046464646464645
+F1 Weighted Standard deviation:  0.0
 	    

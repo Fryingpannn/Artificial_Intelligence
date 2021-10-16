@@ -1,0 +1,3 @@
+drugs-discussion
+
+The naive-bayes, and decision trees's accuracy and F1 scores did not change. This is expected because none of the parameters, nor the random state or the data have been changed during each iteration. Thus the 
