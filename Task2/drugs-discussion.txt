@@ -1,5 +1,16 @@
-drugs-discussion
+drugs discussion:
+-----------------
 
-The naive-bayes, perceptron, multi-layered perceptron and decision trees's accuracy and F1 scores did not change. This is expected because none of the parameters, nor the random state or the data have been changed during each iteration. Thus, the results for the same model does not change. 
+The naive-bayes model's accuracy and F1 score do not change as there is no randomness and the probabilities are always the same through each iteration with the same data.
 
-For the top decision tree and top multi-layered perceptron with grid search, the results for their accuracies and F1 scores did not change, however, they are expected to change. This is because with grid search, multiple parameters are introduced and the model picks the best one
+The base decision tree's accuracy and F1 score changes as the default random state parameter is set to None. The features are always randomly permuted at each split and the best found split may vary across different runs.
+
+The top decision tree's accuracy and F1 score changes due to the same reason as the base decision tree, but also because we are using grid search with different criterion, max depth and minimum sample split parameters. Each iteration could have different parameters chosen and thus different results.
+
+The perceptron's model has no changes because the default value for the random state parameter is an integer and thus the results are reproducible across multiple function calls.
+
+The base multi-layered perceptron has different results across iterations because it is using the stochastic gradient descent as the solver. The weight initializations are always randomnized and thus there are differents in ouputs.
+
+The top multi-layered perceptron also has different results for the same reason as the base one but also includes the grid search with multiple parameters changes for the activation function, hidden layer sizes and solver. Thus, different combination of parameters would result in differences in accuracies and F1 scores.
+
+Of course, it should be noted that the data never changes across all iterations for each model. This plays a big part as to why the differences are small even when present.
