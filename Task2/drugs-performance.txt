@@ -165,7 +165,7 @@ QUESTION 8)
 
 [10 iterations]
 
-Naive-Bayes -> No change
+Naive-Bayes
 ----------------------------------------
 Accuracy Average:  0.76
 Accuracy Standard deviation:  0.0
@@ -174,25 +174,25 @@ F1 Macro Standard deviation:  0
 F1 Weighted Average:  0.7685380116959063
 F1 Weighted Standard deviation:  0
 
-Base Decision Tree -> Changed
+Base Decision Tree
 ----------------------------------------
-Accuracy Average:  0.938
-Accuracy Standard deviation:  0.005999999999999972
-F1 Macro Average:  0.9053230769230769
-F1 Macro Standard deviation:  0.012030769230769256
-F1 Weighted Average:  0.9308553846153845
-F1 Weighted Standard deviation:  0.00823384615384617
+Accuracy Average:  100.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  1.0
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  1.0
+F1 Weighted Standard deviation:  0.0
 
-Top Decision Tree -> Changed
+Top Decision Tree
 ----------------------------------------
-Accuracy Average:  0.9359999999999999
-Accuracy Standard deviation:  0.007999999999999964
-F1 Macro Average:  0.9033196716327149
-F1 Macro Standard deviation:  0.017481883753122308
-F1 Weighted Average:  0.9291061842505322
-F1 Weighted Standard deviation:  0.011636930330075504
+Accuracy Average:  100.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  1.0
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  1.0
+F1 Weighted Standard deviation:  0.0
 
-Perceptron -> No change
+Perceptron
 ----------------------------------------
 Accuracy Average:  0.33999999999999997
 Accuracy Standard deviation:  0
@@ -201,7 +201,7 @@ F1 Macro Standard deviation:  0.0
 F1 Weighted Average:  0.32849042145593865
 F1 Weighted Standard deviation:  0
 
-Base Multi-layered Perceptron -> Changed
+Base Multi-layered Perceptron
 ----------------------------------------
 Accuracy Average:  0.5360000000000001
 Accuracy Standard deviation:  0.008000000000000007
@@ -210,7 +210,7 @@ F1 Macro Standard deviation:  0.005933337009478211
 F1 Weighted Average:  0.4283919852132838
 F1 Weighted Standard deviation:  0.008022332391201209
 
-Top Multi-layered Perceptron -> Changed
+Top Multi-layered Perceptron
 ----------------------------------------
 Accuracy Average:  0.778
 Accuracy Standard deviation:  0.058957611891934686

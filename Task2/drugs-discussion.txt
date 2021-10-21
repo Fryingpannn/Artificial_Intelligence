@@ -3,9 +3,9 @@ drugs discussion:
 
 The naive-bayes model's accuracy and F1 score do not change as there is no randomness and the probabilities are always the same through each iteration with the same data.
 
-The base decision tree's accuracy and F1 score changes as the default random state parameter is set to None. The features are always randomly permuted at each split and the best found split may vary across different runs.
+The base decision tree's accuracy and F1 score doesn't changes as the decision tree is trained in a non-deterministic way so there's no randomness.
 
-The top decision tree's accuracy and F1 score changes due to the same reason as the base decision tree, but also because we are using grid search with different criterion, max depth and minimum sample split parameters. Each iteration could have different parameters chosen and thus different results.
+The top decision tree's accuracy and F1 score changes due to the same reason as the base decision tree. At each step, the learners consider all possible features that have not been used to split the data, and finds the splits that maximizes the information gain.
 
 The perceptron's model has no changes because the default value for the random state parameter is an integer and thus the results are reproducible across multiple function calls.
 
