@@ -125,38 +125,4 @@ business : 135389.0     entertainment : 88914.0     politics : 149438.0     spor
 (i) Number and percentage of words with frequency of 0: 
 Business: 18575 (63.13517555487577%)        Entertainment: 19657 (66.81282077427687%)        Politics: 19176 (65.17793412868359%)        Sports: 19941 (67.77811767105129%)        Tech: 18424 (62.62193671187247%)
 (j) Number and percentage of words with frequency of 1 in the entire dataset: 9302 (31.616872302097143%)
-(k) Love: -3.7630902528274297   Hate: -5.121025099827883(a) ************** Multi-nomialNB default values, try 1
-(b) confusion matrix:
-[91  0  3  0  2]
-[ 1 79  1  0  1]
-[ 1  0 80  0  0]
-[  1   0   0 107   0]
-[ 0  0  0  0 78]
-
-(c) report:
-               precision    recall  f1-score   support
-
-     business       0.97      0.95      0.96        96
-entertainment       1.00      0.96      0.98        82
-     politics       0.95      0.99      0.97        81
-        sport       1.00      0.99      1.00       108
-         tech       0.96      1.00      0.98        78
-
-     accuracy                           0.98       445
-    macro avg       0.98      0.98      0.98       445
- weighted avg       0.98      0.98      0.98       445
-
-(d) accuracy: 0.9775280898876404     macro-average F1: 0.9770878157694808     weighted-average F1: 0.9775311803980556
-(e) Prior Probabilites:
-Business: 0.23258426966292134     Entertainment: 0.1707865168539326     Politics: 0.18876404494382024     Sports: 0.22640449438202248     Tech: 0.18146067415730338
-(f) vocabulary size: 29421
-(g) word token per class:
-business : 131950.0     entertainment : 93838.0     politics : 150366.0     sport : 127305.0     tech : 158860.0     
-(h) Total word count: 662319.0
-(i) Number and percentage of words with frequency of 0: 
-Business: 18722 (63.63481866693858%)        Entertainment: 19428 (66.03446517793412%)        Politics: 19063 (64.7938547296149%)        Sports: 19896 (67.62516569797084%)        Tech: 18454 (62.72390469392611%)
-(j) Number and percentage of words with frequency of 1 in the entire dataset: 9342 (31.752829611501987%)
-(k) Love: -3.7418859678197345   Hate: -5.12209720953134
-(a) ************** Multi-nomialNB default values, try 2
-(a) ************** Multi-nomialNB with smoothing = 0.0001
-(a) ************** Multi-nomialNB with smoothing = 0.9
+(k) Love: -3.7630902528274297   Hate: -5.121025099827883

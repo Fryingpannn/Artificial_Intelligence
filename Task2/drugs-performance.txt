@@ -4,24 +4,24 @@ NB:
 	a) Gaussian Naive Bayes (default parameters)
 
 	b) Confusion matrix: 
-       [[ 4,  0,  0,  0,  0],
-       [ 0,  6,  0,  0,  0],
-       [ 0,  0,  4,  0,  0],
-       [ 0,  0,  4, 10,  0],
-       [ 3,  0,  5,  1, 13]]
+       [[ 7  0  0  0  0]
+ 		[ 0  2  0  0  0]
+ 		[ 0  0  5  0  0]
+ 		[ 0  0  0 12  0]
+ 		[ 1  0  6  0 17]]
 
 	c) and d)
 	              precision    recall  f1-score   
 
-	       drugA       0.57      1.00      0.73        
-	       drugB       1.00      1.00      1.00        
-	       drugC       0.31      1.00      0.47        
-	       drugX       0.91      0.71      0.80        
-	       drugY       1.00      0.59      0.74        
+       drugA       0.88      1.00      0.93         
+       drugB       1.00      1.00      1.00         
+       drugC       0.45      1.00      0.62         
+       drugX       1.00      1.00      1.00        
+       drugY       1.00      0.71      0.83        
 
-	    accuracy                           0.74        
-	   macro avg       0.76      0.86      0.75        
-	weighted avg       0.88      0.74      0.77        
+    accuracy                           0.86        
+   macro avg       0.87      0.94      0.88        
+weighted avg       0.93      0.86      0.87               
     
 ********************************************************************
 
@@ -29,24 +29,24 @@ Base-DT:
 	a) Base Decision Tree (default parameters)
 
 	b) Confusion matrix:
-       [[ 4,  0,  0,  0,  0],
-       [ 0,  6,  0,  0,  0],
-       [ 0,  0,  2,  2,  0],
-       [ 0,  0,  0, 14,  0],
-       [ 0,  0,  0,  0, 22]]
+       [[ 7  0  0  0  0]
+		[ 0  2  0  0  0]
+ 		[ 0  0  5  0  0]
+ 		[ 0  0  0 12  0]
+ 		[ 0  0  0  0 24]]
 
 	c) and d)
-	              precision    recall  f1-score   
+	               precision    recall  f1-score   
 
-	       drugA       1.00      1.00      1.00        
-	       drugB       1.00      1.00      1.00        
-	       drugC       1.00      0.50      0.67        
-	       drugX       0.88      1.00      0.93        
-	       drugY       1.00      1.00      1.00        
+       drugA       1.00      1.00      1.00         
+       drugB       1.00      1.00      1.00         
+       drugC       1.00      1.00      1.00         
+       drugX       1.00      1.00      1.00        
+       drugY       1.00      1.00      1.00        
 
-	    accuracy                           0.96        
-	   macro avg       0.97      0.90      0.92        
-	weighted avg       0.96      0.96      0.95           
+    accuracy                           1.00        
+   macro avg       1.00      1.00      1.00        
+weighted avg       1.00      1.00      1.00                  
 
 ******************************************************************** 
 
@@ -59,49 +59,48 @@ Top-DT:
 		}
 
 	b) Confusion matrix:
-       [[ 4,  0,  0,  0,  0],
-       [ 0,  3,  0,  0,  0],
-       [ 0,  0,  3,  2,  0],
-       [ 0,  0,  2, 13,  0],
-       [ 0,  0,  0,  0, 23]]
+       [[ 7  0  0  0  0]
+ 		[ 0  2  0  0  0]
+ 		[ 0  0  5  0  0]
+ 		[ 0  0  0 12  0]
+ 		[ 0  0  0  0 24]]
 
 	c) and d)
-	              precision    recall  f1-score   
+	             precision    recall  f1-score   
 
-	       drugA       1.00      1.00      1.00        
-	       drugB       1.00      1.00      1.00        
-	       drugC       0.60      0.60      0.60        
-	       drugX       0.87      0.87      0.87        
-	       drugY       1.00      1.00      1.00        
+       drugA       1.00      1.00      1.00         
+       drugB       1.00      1.00      1.00         
+       drugC       1.00      1.00      1.00         
+       drugX       1.00      1.00      1.00        
+       drugY       1.00      1.00      1.00        
 
-	    accuracy                           0.92        
-	   macro avg       0.89      0.89      0.89        
-	weighted avg       0.92      0.92      0.92      
-
+    accuracy                           1.00        
+   macro avg       1.00      1.00      1.00        
+weighted avg       1.00      1.00      1.00        
 ********************************************************************
 
 PER:
 	a) Perceptron (default parameters)
 
 	b) Confusion matrix:
-	   [[0, 1, 2, 1, 0],
-       [0, 0, 0, 2, 1],
-       [0, 0, 2, 1, 2],
-       [4, 5, 2, 2, 2],
-       [3, 0, 7, 5, 8]]
+	   [[ 0  0  0  0  7]
+ 		[ 0  0  0  0  2]
+ 		[ 0  0  0  0  5]
+ 		[ 0  0  0  0 12]
+ 		[ 0  0  0  0 24]]
 
     c) and d)
-	              precision    recall  f1-score   
+	               precision    recall  f1-score   
 
-	       drugA       0.00      0.00      0.00        
-	       drugB       0.00      0.00      0.00        
-	       drugC       0.00      0.00      0.00        
-	       drugX       0.35      0.80      0.49        
-	       drugY       0.75      0.52      0.62        
+       drugA       0.00      0.00      0.00         
+       drugB       0.00      0.00      0.00         
+       drugC       0.00      0.00      0.00         
+       drugX       0.00      0.00      0.00        
+       drugY       0.48      1.00      0.65        
 
-	    accuracy                           0.48        
-	   macro avg       0.22      0.26      0.22        
-	weighted avg       0.45      0.48      0.43        
+    accuracy                           0.48        
+   macro avg       0.10      0.20      0.13        
+weighted avg       0.23      0.48      0.31        
 
 ********************************************************************
 
@@ -110,24 +109,24 @@ Base-MLP:
 	a) Base Multi-layered Perceptron. Parameters: 1 hidden layer of 100 neurons, logistic activation function and stochastic gradient descent.
 
 	b) Confusion matrix:
-	   [[ 0,  0,  0,  0,  4],
-       [ 0,  0,  0,  6,  0],
-       [ 0,  0,  0,  2,  2],
-       [ 0,  0,  0,  8,  6],
-       [ 0,  0,  0,  0, 22]]
+	   [[ 0  0  0  2  5]
+ 		[ 0  0  0  2  0]
+ 		[ 0  0  0  2  3]
+ 		[ 0  0  0  6  6]
+ 		[ 0  0  0  1 23]]
 
     c) and d)
-	              precision    recall  f1-score   
+	              precision    recall  f1-score
 
-	       drugA       0.00      0.00      0.00        
-	       drugB       0.00      0.00      0.00        
-	       drugC       0.00      0.00      0.00        
-	       drugX       0.50      0.57      0.53        
-	       drugY       0.65      1.00      0.79        
+       drugA       0.00      0.00      0.00         
+       drugB       0.00      0.00      0.00         
+       drugC       0.00      0.00      0.00         
+       drugX       0.46      0.50      0.48        
+       drugY       0.62      0.96      0.75        
 
-	    accuracy                           0.60        
-	   macro avg       0.23      0.31      0.26        
-	weighted avg       0.42      0.60      0.50          
+    accuracy                           0.58        
+   macro avg       0.22      0.29      0.25        
+weighted avg       0.41      0.58      0.48        
 
 ********************************************************************
 
@@ -140,24 +139,24 @@ Top-MLP:
 		}
 
 	b) Confusion matrix
-	   [[ 4,  0,  0,  0,  0],
-       [ 1,  5,  0,  0,  0],
-       [ 0,  0,  0,  4,  0],
-       [ 0,  0,  0, 13,  1],
-       [ 0,  0,  0,  1, 21]]
+	   [[ 2  2  0  2  1]
+ 		[ 0  2  0  0  0]
+ 		[ 0  0  2  2  1]
+ 		[ 0  0  0  8  4]
+ 		[ 0  0  0  3 21]]
 
     c) and d)
-	               precision    recall  f1-score   
+	               precision    recall  f1-score
 
-	       drugA       0.80      1.00      0.89        
-	       drugB       1.00      0.83      0.91        
-	       drugC       0.00      0.00      0.00        
-	       drugX       0.72      0.93      0.81        
-	       drugY       0.95      0.95      0.95        
+       drugA       1.00      0.29      0.44 
+       drugB       0.50      1.00      0.67 
+       drugC       1.00      0.40      0.57
+       drugX       0.53      0.67      0.59
+       drugY       0.78      0.88      0.82
 
-	    accuracy                           0.86        
-	   macro avg       0.70      0.74      0.71        
-	weighted avg       0.81      0.86      0.83 
+    accuracy                           0.70        
+   macro avg       0.76      0.65      0.62        
+weighted avg       0.76      0.70      0.68        
 
 ********************************************************************
 
@@ -167,12 +166,12 @@ QUESTION 8)
 
 Naive-Bayes
 ----------------------------------------
-Accuracy Average:  0.76
+Accuracy Average:  86.0
 Accuracy Standard deviation:  0.0
-F1 Macro Average:  0.7238702817650186
-F1 Macro Standard deviation:  0
-F1 Weighted Average:  0.7685380116959063
-F1 Weighted Standard deviation:  0
+F1 Macro Average:  0.8775203252032521
+F1 Macro Standard deviation:  0.0
+F1 Weighted Average:  0.8712154471544714
+F1 Weighted Standard deviation:  1.1102230246251565e-16
 
 Base Decision Tree
 ----------------------------------------
@@ -194,28 +193,28 @@ F1 Weighted Standard deviation:  0.0
 
 Perceptron
 ----------------------------------------
-Accuracy Average:  0.33999999999999997
-Accuracy Standard deviation:  0
-F1 Macro Average:  0.15601532567049808
+Accuracy Average:  48.0
+Accuracy Standard deviation:  0.0
+F1 Macro Average:  0.12972972972972974
 F1 Macro Standard deviation:  0.0
-F1 Weighted Average:  0.32849042145593865
-F1 Weighted Standard deviation:  0
+F1 Weighted Average:  0.3113513513513514
+F1 Weighted Standard deviation:  0.0
 
 Base Multi-layered Perceptron
 ----------------------------------------
-Accuracy Average:  0.5360000000000001
-Accuracy Standard deviation:  0.008000000000000007
-F1 Macro Average:  0.23644415236116306
-F1 Macro Standard deviation:  0.005933337009478211
-F1 Weighted Average:  0.4283919852132838
-F1 Weighted Standard deviation:  0.008022332391201209
+Accuracy Average:  57.4
+Accuracy Standard deviation:  0.9165151389911614
+F1 Macro Average:  0.24254346705673124
+F1 Macro Standard deviation:  0.006540208746346606
+F1 Weighted Average:  0.47059475571876364
+F1 Weighted Standard deviation:  0.010045247412708146
 
 Top Multi-layered Perceptron
 ----------------------------------------
-Accuracy Average:  0.778
-Accuracy Standard deviation:  0.058957611891934686
-F1 Macro Average:  0.5786655329987592
-F1 Macro Standard deviation:  0.08236783720948691
-F1 Weighted Average:  0.7215668573789168
-F1 Weighted Standard deviation:  0.06554738878290728
+Accuracy Average:  77.8
+Accuracy Standard deviation:  3.515679166249389
+F1 Macro Average:  0.6069872117934272
+F1 Macro Standard deviation:  0.04796015958063401
+F1 Weighted Average:  0.7384997645146812
+F1 Weighted Standard deviation:  0.0316902290092192
 	    
