@@ -260,7 +260,7 @@ class Game:
 	def check_diagonal_right_win(self):
 		winning_line = False
 		for y in range(0, self.size - self.winning_line_up_size + 1):
-			for x in range(self.winning_line_up_size -1, self.size):
+			for x in range(0, self.size):
 				winning_line = True
 				owner = self.current_state[y][x]
 				if (owner != '.' and owner != '*'):
