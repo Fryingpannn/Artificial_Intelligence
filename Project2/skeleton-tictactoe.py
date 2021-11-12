@@ -312,6 +312,63 @@ class Game:
 			self.player_turn = 'X'
 		return self.player_turn
 
+	def update_v(self, count_o, count_x, values):
+		index = max(count_o,count_x)
+		if count_o >= count_x:
+			return values[index]
+		else:
+			return -values[index]
+
+	def e(self):
+		values = [0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000]
+		v = 0
+
+		# checking number of X and Os in each ROW
+		for i in range(self.size):
+			count_o = 0
+			count_x = 0
+			for k in range(self.size):
+				if self.current_state[i][k] == "O":
+					count_o += 1
+				elif self.current_state[i][k] == "X":
+					count_x += 1
+
+			# calculating e(n) value depending on the winning condition size
+			v += self.update_v(count_o, count_x, values)
+
+		# checking number of Xs and Os in each COLUMN
+		for i in range(self.size):
+			count_o = 0
+			count_x = 0
+			for k in range(self.size):
+				if self.current_state[k][i] == "O":
+					count_o += 1
+				elif self.current_state[k][i] == "X":
+					count_x += 1
+
+			v += self.update_v(count_o, count_x, values)
+
+		count_o, count_x = 0, 0
+		# checking number of Xs and Os in left DIAGONAL
+		for i in range(self.size):
+			if self.current_state[i][i] == "O":
+				count_o += 1
+			elif self.current_state[i][i] == "X":
+				count_x += 1
+
+		v += self.update_v(count_o, count_x, values)
+
+		count_o, count_x = 0, 0
+		# checking number of Xs and Os in right DIAGONAL
+		for i in range(self.size):
+			if self.current_state[i][self.size-i-1] == "O":
+				count_o += 1
+			elif self.current_state[i][self.size-i-1] == "X":
+				count_x += 1
+
+		v += self.update_v(count_o, count_x, values)
+		return v
+
 	def minimax(self, max=False):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
