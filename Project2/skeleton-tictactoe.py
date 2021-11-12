@@ -200,47 +200,83 @@ class Game:
 		return '.'
 		
 	def check_horizontal_win(self):
+		winning_line = False
 		for y in range(0, self.size):
-			for x in range(0, self.size - 2):
-				if (self.current_state[y][x] != '.' and
-					self.current_state[y][x] == self.current_state[y][x+1] and 
-					self.current_state[y][x] == self.current_state[y][x+2]):
-					self.result_if_win = self.current_state[y][x]
+			for x in range(0, self.size - self.winning_line_up_size + 1):
+				winning_line = True
+				owner = self.current_state[y][x]
+				if (owner != '.' and owner != '*'):
+					for j in range (1,self.winning_line_up_size):
+						if (self.current_state[y][x+j] == '.' or self.current_state[y][x+j] == '*' or self.current_state[y][x+j] != owner):
+							winning_line = False
+							break
+				else:
+					winning_line = False
+				if winning_line == True:
+					self.result_if_win = owner
 					return True
-		return False
-				
+		return winning_line
+
 	def check_vertical_win(self):
-		for y in range(0, self.size -2):
+		winning_line = False
+		for y in range(0, self.size - self.winning_line_up_size + 1):
 			for x in range(0, self.size):
-				if (self.current_state[y][x] != '.' and
-					self.current_state[y][x] == self.current_state[y+1][x] and 
-					self.current_state[y][x] == self.current_state[y+2][x]):
-					self.result_if_win = self.current_state[y][x]
+				winning_line = True
+				owner = self.current_state[y][x]
+				if (owner != '.' and owner != '*'):
+					for j in range (1,self.winning_line_up_size):
+						if (self.current_state[y+j][x] == '.' or self.current_state[y+j][x] == '*' or self.current_state[y+j][x] != owner):
+							winning_line = False
+							break
+				else:
+					winning_line = False
+				if winning_line == True:
+					self.result_if_win = owner
 					return True
-		return False
-		
+		return winning_line
+
 	#facing left wards, from right(downwards) to left(upwards)
 	def check_diagonal_left_win(self):
-		for y in range(0, self.size - 2):
-			for x in range(0, self.size - 2):
-				if (self.current_state[y][x] != '.' and
-					self.current_state[y][x] == self.current_state[y+1][x+1] and 
-					self.current_state[y][x] == self.current_state[y+2][x+2]):
-					self.result_if_win = self.current_state[y][x]
+		winning_line = False
+		for y in range(0, self.size - self.winning_line_up_size + 1):
+			for x in range(0, self.size - self.winning_line_up_size + 1):
+				winning_line = True
+				owner = self.current_state[y][x]
+				if (owner != '.' and owner != '*'):
+					for j in range (1,self.winning_line_up_size):
+						if (self.current_state[y+j][x+j] == '.' or
+							self.current_state[y+j][x+j] == '*' or
+							self.current_state[y+j][x+j] != owner):
+							winning_line = False
+							break
+				else:
+					winning_line = False
+				if winning_line == True:
+					self.result_if_win = owner
 					return True
-		return False
-		
+		return winning_line
+
 	#Facing Right, from left(downwards) to right(upwards)
 	def check_diagonal_right_win(self):
-		for y in range(0, self.size -2):
-			for x in range(2, self.size):
-				if (self.current_state[y][x] != '.' and
-					self.current_state[y][x] == self.current_state[y+1][x-1] and 
-					self.current_state[y][x] == self.current_state[y+2][x-2]):
-					self.result_if_win = self.current_state[y][x]
+		winning_line = False
+		for y in range(0, self.size - self.winning_line_up_size + 1):
+			for x in range(self.winning_line_up_size -1, self.size):
+				winning_line = True
+				owner = self.current_state[y][x]
+				if (owner != '.' and owner != '*'):
+					for j in range (1,self.winning_line_up_size):
+						if (self.current_state[y+j][x-j] == '.' or
+							self.current_state[y+j][x-j] == '*' or
+							self.current_state[y+j][x-j] != owner):
+							winning_line = False
+							break
+				else:
+					winning_line = False
+				if winning_line == True:
+					self.result_if_win = owner
 					return True
-		return False
-		
+		return winning_line
+
 	def check_end(self):
 		self.result = self.is_end()
 		
