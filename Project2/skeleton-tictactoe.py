@@ -387,7 +387,7 @@ class Game:
 
 
    # difference with e1: this one checks all diagonals
-   def e2():
+   def e2(self):
       values = [0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000]
       v = 0
 
