@@ -26,15 +26,16 @@ class Game:
 		self.recommend = recommend
 	
 	def print_stats(self):
-		print("Size: "+ str(self.size))
-		print("Current State: "+ str(self.current_state))
-		print("Winning Line Up Size: "+ str(self.winning_line_up_size))
-		print("Time: "+ str(self.allowed_time))
-		print("Selected Algorithm: "+ "minimax" if self.selected_algorithm == 0 else "ALPHABETA")
-		print("player1_maximum_depth: "+ str(self.player1_maximum_depth))
-		print("player2_maximum_depth: "+ str(self.player2_maximum_depth))
-		print("player1 is AI: "+ str(self.player1_is_AI))
-		print("player2 is AI: "+ str(self.player2_is_AI))
+		print("n="+ str(self.size) + " b=" + str(self.number_of_block)+ " s="+str(self.winning_line_up_size)+" t=" + str(self.allowed_time))
+		print("blocs="+ str(self.location_of_block))
+		if (self.player1_is_AI):
+			print("player1: AI"+ " d=" + str(self.player1_maximum_depth) + " a=" +"False" if self.selected_algorithm == 0 else "True")
+		else:
+			print("Player1: Human")
+		if (self.player2_is_AI):
+			print("player2: AI"+ " d=" + str(self.player2_maximum_depth) + " a=" +"False" if self.selected_algorithm == 0 else "True")
+		else:
+			print("Player2: Human")
 		
 		
 	def initialize_game(self):
@@ -44,6 +45,8 @@ class Game:
 		self.result_if_win= '.'
 		if default_mode:
 			self.size = 3
+			self.number_of_block = 0
+			self.location_of_block = []
 			self.current_state = [['.' for col in range(self.size)] for row in range(self.size)]
 			self.winning_line_up_size = 3
 			self.allowed_time = 5
@@ -68,6 +71,7 @@ class Game:
 	  
 	def initialize_block_coordinates(self):
 		required = self.number_of_block
+		self.location_of_block = []
 		while (required >0):
 			print("Please input coordinate of the bloc: ")
 			px = int(input('enter the x coordinate: '))
@@ -75,6 +79,7 @@ class Game:
 			if self.is_valid(px, py):
 				self.current_state[py][px] = '*'
 				required -= 1
+				self.location_of_block.append([px,py])
 			else:
 				print('The coordinate is not valid! Try again.')
 	    
