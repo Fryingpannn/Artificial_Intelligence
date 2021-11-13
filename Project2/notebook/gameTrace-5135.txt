@@ -1,0 +1,4 @@
+n=5 b=1 s=3 t=5
+blocs=[[1, 1]]
+player1: AI d=3 a=False e1 (simple)
+player2: AI d=3 a=False e2 (advanced)

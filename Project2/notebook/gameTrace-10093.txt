@@ -1,0 +1,4 @@
+n=10 b=0 s=9 t=3
+blocs=[]
+player1: AI d=4 a=False e1 (simple)
+player2: AI d=4 a=False e2 (advanced)

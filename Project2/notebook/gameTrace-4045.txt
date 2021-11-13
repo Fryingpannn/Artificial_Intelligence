@@ -1,0 +1,4 @@
+n=4 b=0 s=4 t=5
+blocs=[]
+player1: AI d=1 a=False e1 (simple)
+Player2: Human

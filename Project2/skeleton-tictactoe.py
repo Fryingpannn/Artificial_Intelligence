@@ -24,6 +24,8 @@ class Game:
    # self.game_trace_file For Each Instances of a game
    
    def __init__(self, recommend = True):
+      self.letters = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F", 6: "G", 7: "H", 8: "I", 9: "J"}
+      self.nb_letters = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8, "J":9}
       self.initialize_game()
       self.recommend = recommend
    
@@ -84,12 +86,12 @@ class Game:
       self.location_of_block = []
       while (required >0):
          print("Please input coordinate of the bloc: ")
-         px = int(input('enter the x coordinate: '))
-         py = int(input('enter the y coordinate: '))
+         px = input('Enter the column letter: ').upper()
+         py = int(input('Enter the row number: '))
          if self.is_valid(px, py):
-            self.current_state[py][px] = '*'
+            self.current_state[py][self.nb_letters[px]] = '*'
             required -= 1
-            self.location_of_block.append([px,py])
+            self.location_of_block.append((px,py))
          else:
             print('The coordinate is not valid! Try again.')
        
@@ -177,14 +179,27 @@ class Game:
             print('The size is not within 3 and 10! Try again.\n')
 
    def draw_board(self):
+      print("  ", end="")
+      for i in range(self.size):
+         print(self.letters[i], end="")
+      print()
+      print("  ", end="")
+      for i in range(self.size):
+         print("-", end="")
       print()
       for y in range(0, self.size):
+         print(y, end="|")
          for x in range(0, self.size):
             print(F'{self.current_state[x][y]}', end="")
          print()
       print()
       
    def is_valid(self, px, py):
+      if px.upper() not in self.nb_letters:
+         return False
+      else:
+         px = self.nb_letters[px.upper()]
+            
       if px < 0 or px > self.size or py < 0 or py > self.size:
          return False
       elif self.current_state[px][py] != '.':
@@ -308,10 +323,10 @@ class Game:
    def input_move(self):
       while True:
          print(F'Player {self.player_turn}, enter your move:')
-         px = int(input('enter the x coordinate: '))
-         py = int(input('enter the y coordinate: '))
+         px = input('Enter column letter: ').upper()
+         py = int(input('Enter row number: '))
          if self.is_valid(px, py):
-            return (px,py)
+            return (self.nb_letters[px],py)
          else:
             print('The move is not valid! Try again.')
 
@@ -552,11 +567,11 @@ class Game:
          if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                if self.recommend:
                   print(F'Evaluation time: {round(end - start, 7)}s')
-                  print(F'Recommended move: x = {x}, y = {y}')
+                  print(F'Recommended move: {self.letters[x]}{y}')
                (x,y) = self.input_move()
          if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
                   print(F'Evaluation time: {round(end - start, 7)}s')
-                  print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
+                  print(F'Player {self.player_turn} under AI control plays: {self.letters[x]}{y}')
          self.current_state[x][y] = self.player_turn
          self.switch_player()
          
@@ -570,4 +585,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-

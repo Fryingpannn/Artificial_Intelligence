@@ -1,0 +1,4 @@
+n=5 b=1 s=5 t=5
+blocs=[['B', 1]]
+player1: AI d=4 a=False e1 (simple)
+Player2: Human

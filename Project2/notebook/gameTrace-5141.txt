@@ -1,0 +1,4 @@
+n=5 b=1 s=4 t=1
+blocs=[('B', 1)]
+player1: AI d=4 a=True e1 (simple)
+player2: AI d=4 a=True e2 (advanced)
