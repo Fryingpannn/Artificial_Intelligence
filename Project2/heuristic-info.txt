@@ -1,0 +1,3 @@
+The heuristic e1() counts the number of Xs and Os on every row and columns, as well as the 2 big diagonals. The player O maximizes so it adds 10^(number of Os) to the final heuristic value, whereas the player X minimizes so it subtracts 10^(number of Xs). A negative number is beneficial for X whereas a positive number benefits player O.
+
+The heuristic e2() is similar to e1() in how it evaluates. It also checks all rows and columns, but additionally also evaluates every single possible diagonal on the board which are greater than or equal to the winning line up quantity. Thus, it is more accurate but takes more time since it needs to generate all the diagonals of the given board.
