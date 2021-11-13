@@ -26,6 +26,7 @@ class Game:
    def __init__(self, recommend = True):
       self.letters = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F", 6: "G", 7: "H", 8: "I", 9: "J"}
       self.nb_letters = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8, "J":9}
+      self.total_time = 0
       self.total_moves = 0
       self.initialize_game()
       self.recommend = recommend
@@ -90,7 +91,7 @@ class Game:
          px = input('Enter the column letter: ').upper()
          py = int(input('Enter the row number: '))
          if self.is_valid(px, py):
-            self.current_state[py][self.nb_letters[px]] = '*'
+            self.current_state[self.nb_letters[px]][py] = '*'
             required -= 1
             self.location_of_block.append((px,py))
          else:
@@ -320,7 +321,7 @@ class Game:
          elif self.result == '.':
             print("It's a tie!")
 
-         print(F'i   - Average evaluation time: s')
+         print(F'i   - Average evaluation time: {round(self.total_time / self.total_moves, 4)}s')
          print(F'ii  - Total heuristic evaluations: ')
          print(F'iii - Evaluations by depth:')
          print(F'iv  - Average evaluation depth:')
@@ -574,6 +575,7 @@ class Game:
             else:
                (m, x, y) = self.alphabeta(self.player2_maximum_depth,time.time(),max=True)
          end = time.time()
+         self.total_time += round(end - start, 7)
          if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                if self.recommend:
                   print(F'Evaluation time: {round(end - start, 7)}s')
