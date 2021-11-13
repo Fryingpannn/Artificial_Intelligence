@@ -21,21 +21,30 @@ class Game:
    # self.player1_is_AI
    # self.player2_is_AI
    # self.result_if_win
+   # self.game_trace_file For Each Instances of a game
    
    def __init__(self, recommend = True):
       self.initialize_game()
       self.recommend = recommend
    
    def print_stats(self):
+      filename = "gameTrace-"+ str(self.size)+ str(self.number_of_block) + str(self.winning_line_up_size) + str(self.allowed_time) + ".txt"
+      self.game_trace_file = open(filename, "w") 
+      self.game_trace_file.writelines("n="+ str(self.size) + " b=" + str(self.number_of_block)+ " s="+str(self.winning_line_up_size)+" t=" + str(self.allowed_time) +"\n")
       print("n="+ str(self.size) + " b=" + str(self.number_of_block)+ " s="+str(self.winning_line_up_size)+" t=" + str(self.allowed_time))
+      self.game_trace_file.writelines("blocs="+ str(self.location_of_block)+"\n")
       print("blocs="+ str(self.location_of_block))
       if (self.player1_is_AI):
+         self.game_trace_file.writelines("player1: AI"+ " d=" + str(self.player1_maximum_depth) + " a=" +("False" if self.selected_algorithm == 0 else "True") + " e1 (simple)\n")
          print("player1: AI"+ " d=" + str(self.player1_maximum_depth) + " a=" +("False" if self.selected_algorithm == 0 else "True") + " e1 (simple)")
       else:
+         self.game_trace_file.writelines("Player1: Human\n")
          print("Player1: Human")
       if (self.player2_is_AI):
+         self.game_trace_file.writelines("player2: AI"+ " d=" + str(self.player2_maximum_depth) + " a=" +("False" if self.selected_algorithm == 0 else "True") +  " e2 (advanced)\n")
          print("player2: AI"+ " d=" + str(self.player2_maximum_depth) + " a=" +("False" if self.selected_algorithm == 0 else "True") +  " e2 (advanced)")
       else:
+         self.game_trace_file.writelines("Player2: Human\n")
          print("Player2: Human")
       
       
