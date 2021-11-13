@@ -321,7 +321,7 @@ class Game:
          return -values[index]
 
    # generate all diagonals of a matrix, need numpy
-   def generate_diagonals():
+   def generate_diagonals(self):
        # create a default array of specified dimensions
        a = np.array(self.current_state)
 
