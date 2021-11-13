@@ -26,6 +26,7 @@ class Game:
    def __init__(self, recommend = True):
       self.letters = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F", 6: "G", 7: "H", 8: "I", 9: "J"}
       self.nb_letters = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8, "J":9}
+      self.total_moves = 0
       self.initialize_game()
       self.recommend = recommend
    
@@ -318,6 +319,13 @@ class Game:
             print('The winner is O!')
          elif self.result == '.':
             print("It's a tie!")
+
+         print(F'i   - Average evaluation time: s')
+         print(F'ii  - Total heuristic evaluations: ')
+         print(F'iii - Evaluations by depth:')
+         print(F'iv  - Average evaluation depth:')
+         print(F'v   - Average recrusion depth:')
+         print(F'vi  - Total moves: {self.total_moves}')
       return self.result
 
    def input_move(self):
@@ -549,10 +557,12 @@ class Game:
       if player_o == None:
          player_o = self.HUMAN
       while True:
+         print()
          self.draw_board()
          if self.check_end():
             return
          start = time.time()
+         self.total_moves += 1
          if algo == self.MINIMAX:
             if self.player_turn == 'X':
                (_, x, y) = self.minimax(self.player1_maximum_depth,time.time(),max=False)
@@ -570,6 +580,7 @@ class Game:
                   print(F'Recommended move: {self.letters[x]}{y}')
                (x,y) = self.input_move()
          if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
+                  print(F'[Move #{self.total_moves}]')
                   print(F'Evaluation time: {round(end - start, 7)}s')
                   print(F'Player {self.player_turn} under AI control plays: {self.letters[x]}{y}')
          self.current_state[x][y] = self.player_turn
