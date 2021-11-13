@@ -30,11 +30,11 @@ class Game:
       print("n="+ str(self.size) + " b=" + str(self.number_of_block)+ " s="+str(self.winning_line_up_size)+" t=" + str(self.allowed_time))
       print("blocs="+ str(self.location_of_block))
       if (self.player1_is_AI):
-         print("player1: AI"+ " d=" + str(self.player1_maximum_depth) + " a=" +"False" if self.selected_algorithm == 0 else "True")
+         print("player1: AI"+ " d=" + str(self.player1_maximum_depth) + " a=" +("False" if self.selected_algorithm == 0 else "True") + " e1 (simple)")
       else:
          print("Player1: Human")
       if (self.player2_is_AI):
-         print("player2: AI"+ " d=" + str(self.player2_maximum_depth) + " a=" +"False" if self.selected_algorithm == 0 else "True")
+         print("player2: AI"+ " d=" + str(self.player2_maximum_depth) + " a=" +("False" if self.selected_algorithm == 0 else "True") +  " e2 (advanced)")
       else:
          print("Player2: Human")
       
@@ -113,7 +113,7 @@ class Game:
             
    def input_algorithm(self):
       while True:
-         print("Please input 1 to select minimax or alphabeta")
+         print("Please input 0 to select minimax or 1 to select alphabeta")
          selection = int(input('enter the selection: '))
          if (selection == 0 ):
             return selection
@@ -431,38 +431,37 @@ class Game:
       
       return v
 
-   def minimax(self, max=False):
+   def minimax(self, max_depth, start_time, max=False):
       # Minimizing for 'X' and maximizing for 'O'
       # Possible values are:
       # -1 - win for 'X'
       # 0  - a tie
       # 1  - loss for 'X'
       # We're initially setting it to 2 or -2 as worse than the worst case:
-      value = 2
+      value = (10**(self.size) * self.size**2)
       if max:
-         value = -2
+         value = -1* (10**(self.size) * self.size**2)
       x = None
       y = None
       result = self.is_end()
-      if result == 'X':
-         return (-1, x, y)
-      elif result == 'O':
-         return (1, x, y)
-      elif result == '.':
-         return (0, x, y)
+      if (max_depth == 0 or result == 'X' or result == 'Y' or result == '.' or start_time + self.allowed_time < time.time()):
+        if self.player_turn == 'X': 
+            return (self.e1(), x, y)
+        else:
+            return (self.e2(), x, y)
       for i in range(0, self.size):
          for j in range(0, self.size):
             if self.current_state[i][j] == '.':
                if max:
                   self.current_state[i][j] = 'O'
-                  (v, _, _) = self.minimax(max=False)
+                  (v, _, _) = self.minimax(max_depth-1,start_time,max=False)
                   if v > value:
                      value = v
                      x = i
                      y = j
                else:
                   self.current_state[i][j] = 'X'
-                  (v, _, _) = self.minimax(max=True)
+                  (v, _, _) = self.minimax(max_depth-1,start_time,max=True)
                   if v < value:
                      value = v
                      x = i
@@ -470,38 +469,37 @@ class Game:
                self.current_state[i][j] = '.'
       return (value, x, y)
 
-   def alphabeta(self, alpha=-2, beta=2, max=False):
+   def alphabeta(self, max_depth, start_time, alpha=-2, beta=2, max=False):
       # Minimizing for 'X' and maximizing for 'O'
       # Possible values are:
       # -1 - win for 'X'
       # 0  - a tie
       # 1  - loss for 'X'
       # We're initially setting it to 2 or -2 as worse than the worst case:
-      value = 2
+      value = (10**(self.size) * self.size**2)
       if max:
-         value = -2
+         value = -1* (10**(self.size) * self.size**2)
       x = None
       y = None
       result = self.is_end()
-      if result == 'X':
-         return (-1, x, y)
-      elif result == 'O':
-         return (1, x, y)
-      elif result == '.':
-         return (0, x, y)
+      if (max_depth == 0 or result == 'X' or result == 'Y' or result == '.' or start_time + self.allowed_time < time.time()):
+        if self.player_turn == 'X': 
+            return (self.e1(), x, y)
+        else:
+            return (self.e2(), x, y)
       for i in range(0, self.size):
          for j in range(0, self.size):
             if self.current_state[i][j] == '.':
                if max:
                   self.current_state[i][j] = 'O'
-                  (v, _, _) = self.alphabeta(alpha, beta, max=False)
+                  (v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=False)
                   if v > value:
                      value = v
                      x = i
                      y = j
                else:
                   self.current_state[i][j] = 'X'
-                  (v, _, _) = self.alphabeta(alpha, beta, max=True)
+                  (v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=True)
                   if v < value:
                      value = v
                      x = i
@@ -533,14 +531,14 @@ class Game:
          start = time.time()
          if algo == self.MINIMAX:
             if self.player_turn == 'X':
-               (_, x, y) = self.minimax(max=False)
+               (_, x, y) = self.minimax(self.player1_maximum_depth,time.time(),max=False)
             else:
-               (_, x, y) = self.minimax(max=True)
+               (_, x, y) = self.minimax(self.player2_maximum_depth,time.time(),max=True)
          else: # algo == self.ALPHABETA
             if self.player_turn == 'X':
-               (m, x, y) = self.alphabeta(max=False)
+               (m, x, y) = self.alphabeta(self.player1_maximum_depth,time.time(),max=False)
             else:
-               (m, x, y) = self.alphabeta(max=True)
+               (m, x, y) = self.alphabeta(self.player2_maximum_depth,time.time(),max=True)
          end = time.time()
          if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                if self.recommend:
