@@ -4,6 +4,14 @@
 import time
 import numpy as np
 
+total_wins_e1 =0
+total_wins_e2 =0
+total_heuristic_evaluations = 0
+total_evaluation_time = 0.0
+total_evaluation_depth =0.0
+total_recursion_depth =0.0
+total_moves = 0
+
 class Game:
    MINIMAX = 0
    ALPHABETA = 1
@@ -595,6 +603,18 @@ def main():
    g.play(algo= Game.MINIMAX if g.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g.player2_is_AI else Game.HUMAN)
    # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
    # g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN)
+   
+   # ScoreBoard stuff
+
+   r = int(input('Enter the number r: '))
+   g2 = Game(recommend=True)
+   filename = "scoreboard.txt"
+   # a open a file for appending. Starts writing at the end of file. Creates a new file if file does not exist
+   score_board_text = open(filename, "a+")
+   for i in range(0, r):
+      g2.play(algo= Game.MINIMAX if g.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g.player2_is_AI else Game.HUMAN)
+   
+   
 
 if __name__ == "__main__":
    main()
