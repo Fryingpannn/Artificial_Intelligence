@@ -517,7 +517,7 @@ class Game:
       self.h2_num_per_turn += 1
       return v
 
-   def minimax(self, max_depth, start_time, max=False):
+   def minimax(self ,max_depth, start_time, max=False):
       # Minimizing for 'X' and maximizing for 'O'
       # Possible values are:
       # -1 - win for 'X'
@@ -542,28 +542,36 @@ class Game:
             else:
                 self.h_by_depth[self.player2_maximum_depth - max_depth] = 1
         if self.player_turn == 'X': 
-            return (self.e1(), x, y)
+            return (self.player1_maximum_depth - max_depth, self.e1(), x, y)
         else:
-            return (self.e2(), x, y)
+            return (self.player2_maximum_depth - max_depth, self.e2(), x, y)
+      num_of_nodes = 0
+      sum = 0
       for i in range(0, self.size):
          for j in range(0, self.size):
             if self.current_state[i][j] == '.':
+               num_of_nodes += 1
                if max:
                   self.current_state[i][j] = 'O'
-                  (v, _, _) = self.minimax(max_depth-1,start_time,max=False)
+                  (recursion_depth, v, _, _) = self.minimax(max_depth-1,start_time,max=False)
+                  sum += recursion_depth
                   if v > value:
                      value = v
                      x = i
                      y = j
                else:
                   self.current_state[i][j] = 'X'
-                  (v, _, _) = self.minimax(max_depth-1,start_time,max=True)
+                  (recursion_depth, v, _, _) = self.minimax(max_depth-1,start_time,max=True)
+                  sum += recursion_depth
                   if v < value:
                      value = v
                      x = i
                      y = j
                self.current_state[i][j] = '.'
-      return (value, x, y)
+      if (num_of_nodes == 0):
+          return (0, value, x, y)
+      else:
+          return (sum/num_of_nodes, value, x, y)
 
    def alphabeta(self, max_depth, start_time, alpha=-2, beta=2, max=False):
       # Minimizing for 'X' and maximizing for 'O'
@@ -590,22 +598,27 @@ class Game:
             else:
                 self.h_by_depth[self.player2_maximum_depth - max_depth] = 1
         if self.player_turn == 'X': 
-            return (self.e1(), x, y)
+            return (self.player1_maximum_depth - max_depth,self.e1(), x, y)
         else:
-            return (self.e2(), x, y)
+            return (self.player2_maximum_depth - max_depth,self.e2(), x, y)
+      num_of_nodes = 0
+      sum = 0
       for i in range(0, self.size):
          for j in range(0, self.size):
             if self.current_state[i][j] == '.':
+               num_of_nodes += 1
                if max:
                   self.current_state[i][j] = 'O'
-                  (v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=False)
+                  (recursion_depth, v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=False) 
+                  sum += recursion_depth
                   if v > value:
                      value = v
                      x = i
                      y = j
                else:
                   self.current_state[i][j] = 'X'
-                  (v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=True)
+                  (recursion_depth, v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=True)
+                  sum += recursion_depth
                   if v < value:
                      value = v
                      x = i
@@ -613,15 +626,18 @@ class Game:
                self.current_state[i][j] = '.'
                if max: 
                   if value >= beta:
-                     return (value, x, y)
+                     return (0 if num_of_nodes==0 else sum/num_of_nodes,value, x, y)
                   if value > alpha:
                      alpha = value
                else:
                   if value <= alpha:
-                     return (value, x, y)
+                     return (0 if num_of_nodes==0 else sum/num_of_nodes,value, x, y)
                   if value < beta:
                      beta = value
-      return (value, x, y)
+      if (num_of_nodes == 0):
+          return (0, value, x, y)
+      else:
+          return (sum/num_of_nodes, value, x, y)
 
    def play(self,algo=None,player_x=None,player_o=None):
       if algo == None:
@@ -646,14 +662,14 @@ class Game:
          self.h_by_depth = {}
          if algo == self.MINIMAX:
             if self.player_turn == 'X':
-               (_, x, y) = self.minimax(self.player1_maximum_depth,time.time(),max=False)
+               (recursion_depth,_, x, y) = self.minimax(self.player1_maximum_depth,time.time(),max=False)
             else:
-               (_, x, y) = self.minimax(self.player2_maximum_depth,time.time(),max=True)
+               (recursion_depth,_, x, y) = self.minimax(self.player2_maximum_depth,time.time(),max=True)
          else: # algo == self.ALPHABETA
             if self.player_turn == 'X':
-               (m, x, y) = self.alphabeta(self.player1_maximum_depth,time.time(),max=False)
+               (recursion_depth,m, x, y) = self.alphabeta(self.player1_maximum_depth,time.time(),max=False)
             else:
-               (m, x, y) = self.alphabeta(self.player2_maximum_depth,time.time(),max=True)
+               (recursion_depth,m, x, y) = self.alphabeta(self.player2_maximum_depth,time.time(),max=True)
          end = time.time()
         
         #calculate average depth
@@ -677,6 +693,7 @@ class Game:
                   print("ii  Heuristic evaluations: "+str(self.h2_num_per_turn+self.h1_num_per_turn))
                   print("iii Evaluations by depth:: "+str(self.h_by_depth))
                   print("iv  Average evaluation depth: "+str(avg_depth))
+                  print("iv  Average recursion depth: "+str(recursion_depth))
          self.current_state[x][y] = self.player_turn
          self.switch_player()
          
