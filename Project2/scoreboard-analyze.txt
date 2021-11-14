@@ -3,8 +3,3 @@ Having a greater depth usually allows the evaluation to be more precise. This al
 The first heuristic takes less time to compute but is less precise since it doesn't need to generate all possible diagonals of the board.
 
 Alpha-beta pruning is also a lot faster than the Minimax algorithm since it's able to remove unecessary branches in the recursion, thus diminishing the overall evaluation time.
-
-Slides:
-- Present output
-- Explain our heuristic
-- Talk about differences in the parameters

@@ -63,6 +63,7 @@ class Game:
       self.h2_time_per_turn = 0
       self.h1_num_per_turn = 0
       self.h2_num_per_turn = 0
+      self.total_heuristics = 0
       self.h_by_depth = {}
 
       if default_mode:
@@ -616,7 +617,7 @@ class Game:
         #reset stats
          self.h1_time_per_turn = 0
          self.h2_time_per_turn = 0
-         self.h1_num_per_turn = 0
+         self.h2_num_per_turn = 0
          self.h2_num_per_turn = 0
          self.h_by_depth = {}
          if algo == self.MINIMAX:
@@ -639,6 +640,9 @@ class Game:
              num += self.h_by_depth[k]
          avg_depth = sum/num
 
+         # updates for #6
+         self.total_heuristics += self.h2_num_per_turn + self.h1_num_per_turn
+         self.total_permove_depth += self.h_by_depth
          self.total_time += round(end - start, 7)
          if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                if self.recommend:
