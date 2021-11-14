@@ -4,16 +4,6 @@
 import time
 import numpy as np
 
-total_wins_e1 =0
-total_wins_e2 =0
-total_average_evaluation_time = 0.0
-total_heuristic_evaluations = 0
-total_evaluation_depth = {}
-total_average_evaluation_depth = 0.0
-total_average_recursion_depth =0.0
-total_average_moves = 0
-scoreboard_mode = False
-
 class Game:
    MINIMAX = 0
    ALPHABETA = 1
@@ -332,17 +322,10 @@ class Game:
       
       # Printing the appropriate message if the game has ended
       if self.result != None:
-         global total_wins_e1
-         global total_wins_e2
-
          if self.result == 'X':
             print('The winner is X!')
-            if (scoreboard_mode):
-               total_wins_e1 += 1
          elif self.result == 'O':
             print('The winner is O!')
-            if (scoreboard_mode):
-               total_wins_e2 +=1
          elif self.result == '.':
             print("It's a tie!")
 
@@ -350,32 +333,8 @@ class Game:
          print(F'ii  - Total heuristic evaluations: ')
          print(F'iii - Evaluations by depth:')
          print(F'iv  - Average evaluation depth:')
-         print(F'v   - Average recursion depth:')
+         print(F'v   - Average recrusion depth:')
          print(F'vi  - Total moves: {self.total_moves}')
-         
-         if (scoreboard_mode):
-            global total_heuristic_evaluations
-            global total_average_evaluation_time
-            global total_evaluation_depth
-            global total_average_evaluation_depth
-            global total_heuristic_evaluations
-            global total_average_recursion_depth
-            global total_average_moves
-         
-            total_average_evaluation_time += round(self.total_time / self.total_moves, 4)
-            total_heuristic_evaluations += self.h2_num_per_turn+self.h1_num_per_turn
-            # initializing the array
-            if (len(total_evaluation_depth) == 0):
-               total_evaluation_depth = self.h_by_depth
-            else:
-               for i in total_evaluation_depth.keys():
-                  #adding all the numbers up
-                  total_evaluation_depth[i] += self.h_by_depth[i]
-                  
-            total_average_evaluation_depth += 1
-            total_average_recursion_depth +=1
-            total_average_moves += self.total_moves
-         
       return self.result
 
    def input_move(self):
@@ -517,7 +476,7 @@ class Game:
       self.h2_num_per_turn += 1
       return v
 
-   def minimax(self, max_depth, start_time, max=False):
+   def minimax(self ,max_depth, start_time, max=False):
       # Minimizing for 'X' and maximizing for 'O'
       # Possible values are:
       # -1 - win for 'X'
@@ -542,28 +501,36 @@ class Game:
             else:
                 self.h_by_depth[self.player2_maximum_depth - max_depth] = 1
         if self.player_turn == 'X': 
-            return (self.e1(), x, y)
+            return (self.player1_maximum_depth - max_depth, self.e1(), x, y)
         else:
-            return (self.e2(), x, y)
+            return (self.player2_maximum_depth - max_depth, self.e2(), x, y)
+      num_of_nodes = 0
+      sum = 0
       for i in range(0, self.size):
          for j in range(0, self.size):
             if self.current_state[i][j] == '.':
+               num_of_nodes += 1
                if max:
                   self.current_state[i][j] = 'O'
-                  (v, _, _) = self.minimax(max_depth-1,start_time,max=False)
+                  (recursion_depth, v, _, _) = self.minimax(max_depth-1,start_time,max=False)
+                  sum += recursion_depth
                   if v > value:
                      value = v
                      x = i
                      y = j
                else:
                   self.current_state[i][j] = 'X'
-                  (v, _, _) = self.minimax(max_depth-1,start_time,max=True)
+                  (recursion_depth, v, _, _) = self.minimax(max_depth-1,start_time,max=True)
+                  sum += recursion_depth
                   if v < value:
                      value = v
                      x = i
                      y = j
                self.current_state[i][j] = '.'
-      return (value, x, y)
+      if (num_of_nodes == 0):
+          return (0, value, x, y)
+      else:
+          return (sum/num_of_nodes, value, x, y)
 
    def alphabeta(self, max_depth, start_time, alpha=-2, beta=2, max=False):
       # Minimizing for 'X' and maximizing for 'O'
@@ -590,22 +557,27 @@ class Game:
             else:
                 self.h_by_depth[self.player2_maximum_depth - max_depth] = 1
         if self.player_turn == 'X': 
-            return (self.e1(), x, y)
+            return (self.player1_maximum_depth - max_depth,self.e1(), x, y)
         else:
-            return (self.e2(), x, y)
+            return (self.player2_maximum_depth - max_depth,self.e2(), x, y)
+      num_of_nodes = 0
+      sum = 0
       for i in range(0, self.size):
          for j in range(0, self.size):
             if self.current_state[i][j] == '.':
+               num_of_nodes += 1
                if max:
                   self.current_state[i][j] = 'O'
-                  (v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=False)
+                  (recursion_depth, v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=False) 
+                  sum += recursion_depth
                   if v > value:
                      value = v
                      x = i
                      y = j
                else:
                   self.current_state[i][j] = 'X'
-                  (v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=True)
+                  (recursion_depth, v, _, _) = self.alphabeta(max_depth-1,start_time, alpha, beta, max=True)
+                  sum += recursion_depth
                   if v < value:
                      value = v
                      x = i
@@ -613,15 +585,18 @@ class Game:
                self.current_state[i][j] = '.'
                if max: 
                   if value >= beta:
-                     return (value, x, y)
+                     return (0 if num_of_nodes==0 else sum/num_of_nodes,value, x, y)
                   if value > alpha:
                      alpha = value
                else:
                   if value <= alpha:
-                     return (value, x, y)
+                     return (0 if num_of_nodes==0 else sum/num_of_nodes,value, x, y)
                   if value < beta:
                      beta = value
-      return (value, x, y)
+      if (num_of_nodes == 0):
+          return (0, value, x, y)
+      else:
+          return (sum/num_of_nodes, value, x, y)
 
    def play(self,algo=None,player_x=None,player_o=None):
       if algo == None:
@@ -646,14 +621,14 @@ class Game:
          self.h_by_depth = {}
          if algo == self.MINIMAX:
             if self.player_turn == 'X':
-               (_, x, y) = self.minimax(self.player1_maximum_depth,time.time(),max=False)
+               (recursion_depth,_, x, y) = self.minimax(self.player1_maximum_depth,time.time(),max=False)
             else:
-               (_, x, y) = self.minimax(self.player2_maximum_depth,time.time(),max=True)
+               (recursion_depth,_, x, y) = self.minimax(self.player2_maximum_depth,time.time(),max=True)
          else: # algo == self.ALPHABETA
             if self.player_turn == 'X':
-               (m, x, y) = self.alphabeta(self.player1_maximum_depth,time.time(),max=False)
+               (recursion_depth,m, x, y) = self.alphabeta(self.player1_maximum_depth,time.time(),max=False)
             else:
-               (m, x, y) = self.alphabeta(self.player2_maximum_depth,time.time(),max=True)
+               (recursion_depth,m, x, y) = self.alphabeta(self.player2_maximum_depth,time.time(),max=True)
          end = time.time()
         
         #calculate average depth
@@ -677,6 +652,7 @@ class Game:
                   print("ii  Heuristic evaluations: "+str(self.h2_num_per_turn+self.h1_num_per_turn))
                   print("iii Evaluations by depth:: "+str(self.h_by_depth))
                   print("iv  Average evaluation depth: "+str(avg_depth))
+                  print("iv  Average recursion depth: "+str(recursion_depth))
          self.current_state[x][y] = self.player_turn
          self.switch_player()
          
@@ -687,37 +663,6 @@ def main():
    g.play(algo= Game.MINIMAX if g.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g.player2_is_AI else Game.HUMAN)
    # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
    # g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN)
-   
-   # ScoreBoard stuff
-   print("\n\n####FOR SCOREBOARD####")
-   global scoreboard_mode
-   scoreboard_mode = True
-   r = int(input('Enter the number r: '))
-   g2 = Game(recommend=True)
-   filename = "scoreboard.txt"
-   # a open a file for appending. Starts writing at the end of file. Creates a new file if file does not exist
-   score_board_text = open(filename, "a+")
-   score_board_text.writelines("\n\nn="+ str(g2.size) + " b=" + str(g2.number_of_block)+ " s="+str(g2.winning_line_up_size)+" t=" + str(g2.allowed_time) +"\n")
-   for i in range(0, r):
-      g2.play(algo= Game.MINIMAX if g2.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g2.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g2.player2_is_AI else Game.HUMAN)
-      g2.play(algo= Game.MINIMAX if g2.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g2.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g2.player2_is_AI else Game.HUMAN)
-   
-   score_board_text.writelines("Player 1: d=" +str(g2.player1_maximum_depth) +" a=" +("False" if g2.selected_algorithm == 0 else "True") + " e1 (simple)\n")
-   score_board_text.writelines("Player 2: d=" +str(g2.player1_maximum_depth) +" a=" +("False" if g2.selected_algorithm == 0 else "True") + " e1 (simple)\n")
-   
-   score_board_text.writelines(str(r*2)+ " games\n")
-   score_board_text.writelines("Total wins for heuristic e1: "+ str(total_wins_e1)+ " ("+ str(total_wins_e1/(r*2) *100) +"%) (regular)\n")
-   score_board_text.writelines("Total wins for heuristic e2: "+ str(total_wins_e2)+ " ("+ str(total_wins_e2/r *100) +"%) (more detailed)\n\n")
-   
-   score_board_text.writelines("i   Average evaluation time: "+ str(total_average_evaluation_time/total_heuristic_evaluations)+ "\n")
-   score_board_text.writelines("ii  Total heuristic evaluations: "+ str(total_heuristic_evaluations))
-   score_board_text.writelines("iii Evaluations by depth:"+ str(total_evaluation_depth) +"\n")
-   score_board_text.writelines("iv  Average evaluation depth:"+ str(total_evaluation_depth) +"\n")
-   score_board_text.writelines("v   Average recursion depth:"+ str(total_average_recursion_depth) +"\n")
-   score_board_text.writelines("vi  Average moves per game:"+ str(total_average_moves/(r*2)) +"\n")
-   
-   
-   
 
 if __name__ == "__main__":
    main()
