@@ -6,11 +6,13 @@ import numpy as np
 
 total_wins_e1 =0
 total_wins_e2 =0
+total_average_evaluation_time = 0.0
 total_heuristic_evaluations = 0
-total_evaluation_time = 0.0
-total_evaluation_depth =0.0
-total_recursion_depth =0.0
-total_moves = 0
+total_evaluation_depth = {}
+total_average_evaluation_depth = 0.0
+total_average_recursion_depth =0.0
+total_average_moves = 0
+scoreboard_mode = False
 
 class Game:
    MINIMAX = 0
@@ -330,10 +332,17 @@ class Game:
       
       # Printing the appropriate message if the game has ended
       if self.result != None:
+         global total_wins_e1
+         global total_wins_e2
+
          if self.result == 'X':
             print('The winner is X!')
+            if (scoreboard_mode):
+               total_wins_e1 += 1
          elif self.result == 'O':
             print('The winner is O!')
+            if (scoreboard_mode):
+               total_wins_e2 +=1
          elif self.result == '.':
             print("It's a tie!")
 
@@ -341,8 +350,32 @@ class Game:
          print(F'ii  - Total heuristic evaluations: ')
          print(F'iii - Evaluations by depth:')
          print(F'iv  - Average evaluation depth:')
-         print(F'v   - Average recrusion depth:')
+         print(F'v   - Average recursion depth:')
          print(F'vi  - Total moves: {self.total_moves}')
+         
+         if (scoreboard_mode):
+            global total_heuristic_evaluations
+            global total_average_evaluation_time
+            global total_evaluation_depth
+            global total_average_evaluation_depth
+            global total_heuristic_evaluations
+            global total_average_recursion_depth
+            global total_average_moves
+         
+            total_average_evaluation_time += round(self.total_time / self.total_moves, 4)
+            total_heuristic_evaluations += self.h2_num_per_turn+self.h1_num_per_turn
+            # initializing the array
+            if (len(total_evaluation_depth) == 0):
+               total_evaluation_depth = self.h_by_depth
+            else:
+               for i in total_evaluation_depth.keys():
+                  #adding all the numbers up
+                  total_evaluation_depth[i] += self.h_by_depth[i]
+                  
+            total_average_evaluation_depth += 1
+            total_average_recursion_depth +=1
+            total_average_moves += self.total_moves
+         
       return self.result
 
    def input_move(self):
@@ -656,14 +689,33 @@ def main():
    # g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN)
    
    # ScoreBoard stuff
-
+   print("\n\n####FOR SCOREBOARD####")
+   global scoreboard_mode
+   scoreboard_mode = True
    r = int(input('Enter the number r: '))
    g2 = Game(recommend=True)
    filename = "scoreboard.txt"
    # a open a file for appending. Starts writing at the end of file. Creates a new file if file does not exist
    score_board_text = open(filename, "a+")
+   score_board_text.writelines("\n\nn="+ str(g2.size) + " b=" + str(g2.number_of_block)+ " s="+str(g2.winning_line_up_size)+" t=" + str(g2.allowed_time) +"\n")
    for i in range(0, r):
-      g2.play(algo= Game.MINIMAX if g.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g.player2_is_AI else Game.HUMAN)
+      g2.play(algo= Game.MINIMAX if g2.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g2.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g2.player2_is_AI else Game.HUMAN)
+      g2.play(algo= Game.MINIMAX if g2.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g2.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g2.player2_is_AI else Game.HUMAN)
+   
+   score_board_text.writelines("Player 1: d=" +str(g2.player1_maximum_depth) +" a=" +("False" if g2.selected_algorithm == 0 else "True") + " e1 (simple)\n")
+   score_board_text.writelines("Player 2: d=" +str(g2.player1_maximum_depth) +" a=" +("False" if g2.selected_algorithm == 0 else "True") + " e1 (simple)\n")
+   
+   score_board_text.writelines(str(r*2)+ " games\n")
+   score_board_text.writelines("Total wins for heuristic e1: "+ str(total_wins_e1)+ " ("+ str(total_wins_e1/(r*2) *100) +"%) (regular)\n")
+   score_board_text.writelines("Total wins for heuristic e2: "+ str(total_wins_e2)+ " ("+ str(total_wins_e2/r *100) +"%) (more detailed)\n\n")
+   
+   score_board_text.writelines("i   Average evaluation time: "+ str(total_average_evaluation_time/total_heuristic_evaluations)+ "\n")
+   score_board_text.writelines("ii  Total heuristic evaluations: "+ str(total_heuristic_evaluations))
+   score_board_text.writelines("iii Evaluations by depth:"+ str(total_evaluation_depth) +"\n")
+   score_board_text.writelines("iv  Average evaluation depth:"+ str(total_evaluation_depth) +"\n")
+   score_board_text.writelines("v   Average recursion depth:"+ str(total_average_recursion_depth) +"\n")
+   score_board_text.writelines("vi  Average moves per game:"+ str(total_average_moves/(r*2)) +"\n")
+   
    
    
 
