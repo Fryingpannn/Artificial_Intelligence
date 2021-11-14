@@ -57,6 +57,14 @@ class Game:
        # Player X always plays first
       self.player_turn = 'X'
       self.result_if_win= '.'
+
+       # stats variables
+      self.h1_time_per_turn = 0
+      self.h2_time_per_turn = 0
+      self.h1_num_per_turn = 0
+      self.h2_num_per_turn = 0
+      self.h_by_depth = {}
+
       if default_mode:
          self.size = 3
          self.number_of_block = 0
@@ -371,7 +379,7 @@ class Game:
    def e1(self):
       values = [0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000]
       v = 0
-
+      start_time = time.time()
       # checking number of X and Os in each ROW
       for i in range(self.size):
          count_o = 0
@@ -416,11 +424,14 @@ class Game:
             count_x += 1
 
       v += self.update_v(count_o, count_x, values)
+      self.h1_time_per_turn += time.time()-start_time
+      self.h1_num_per_turn += 1
       return v
 
 
    # difference with e1: this one checks all diagonals
    def e2(self):
+      start_time = time.time()
       values = [0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000]
       v = 0
 
@@ -461,7 +472,8 @@ class Game:
                   count_x += 1
 
          v += self.update_v(count_o, count_x, values)
-      
+      self.h2_time_per_turn += time.time()-start_time
+      self.h2_num_per_turn += 1
       return v
 
    def minimax(self, max_depth, start_time, max=False):
@@ -478,6 +490,16 @@ class Game:
       y = None
       result = self.is_end()
       if (max_depth == 0 or result == 'X' or result == 'Y' or result == '.' or start_time + self.allowed_time < time.time()):
+        if self.player_turn == 'X':
+            if (self.player1_maximum_depth-max_depth) in self.h_by_depth:
+                self.h_by_depth[self.player1_maximum_depth - max_depth] += 1
+            else:
+                self.h_by_depth[self.player1_maximum_depth - max_depth] = 1
+        else:
+            if (self.player2_maximum_depth-max_depth) in self.h_by_depth:
+                self.h_by_depth[self.player2_maximum_depth - max_depth] += 1
+            else:
+                self.h_by_depth[self.player2_maximum_depth - max_depth] = 1
         if self.player_turn == 'X': 
             return (self.e1(), x, y)
         else:
@@ -516,6 +538,16 @@ class Game:
       y = None
       result = self.is_end()
       if (max_depth == 0 or result == 'X' or result == 'Y' or result == '.' or start_time + self.allowed_time < time.time()):
+        if self.player_turn == 'X':
+            if (self.player1_maximum_depth-max_depth) in self.h_by_depth:
+                self.h_by_depth[self.player1_maximum_depth - max_depth] += 1
+            else:
+                self.h_by_depth[self.player1_maximum_depth - max_depth] = 1
+        else:
+            if (self.player2_maximum_depth-max_depth) in self.h_by_depth:
+                self.h_by_depth[self.player2_maximum_depth - max_depth] += 1
+            else:
+                self.h_by_depth[self.player2_maximum_depth - max_depth] = 1
         if self.player_turn == 'X': 
             return (self.e1(), x, y)
         else:
@@ -564,6 +596,13 @@ class Game:
             return
          start = time.time()
          self.total_moves += 1
+        
+        #reset stats
+         self.h1_time_per_turn = 0
+         self.h2_time_per_turn = 0
+         self.h1_num_per_turn = 0
+         self.h2_num_per_turn = 0
+         self.h_by_depth = {}
          if algo == self.MINIMAX:
             if self.player_turn == 'X':
                (_, x, y) = self.minimax(self.player1_maximum_depth,time.time(),max=False)
@@ -575,6 +614,15 @@ class Game:
             else:
                (m, x, y) = self.alphabeta(self.player2_maximum_depth,time.time(),max=True)
          end = time.time()
+        
+        #calculate average depth
+         sum = 0
+         num = 0
+         for k in self.h_by_depth.keys():
+             sum += k*self.h_by_depth[k]
+             num += self.h_by_depth[k]
+         avg_depth = sum/num
+
          self.total_time += round(end - start, 7)
          if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                if self.recommend:
@@ -582,9 +630,12 @@ class Game:
                   print(F'Recommended move: {self.letters[x]}{y}')
                (x,y) = self.input_move()
          if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
-                  print(F'[Move #{self.total_moves}]')
-                  print(F'Evaluation time: {round(end - start, 7)}s')
                   print(F'Player {self.player_turn} under AI control plays: {self.letters[x]}{y}')
+                  print(F'[Move #{self.total_moves}]')
+                  print(F'i  Evaluation time: {round(self.h2_time_per_turn+self.h1_time_per_turn, 7)}s')
+                  print("ii  Heuristic evaluations: "+str(self.h2_num_per_turn+self.h1_num_per_turn))
+                  print("iii Evaluations by depth:: "+str(self.h_by_depth))
+                  print("iv  Average evaluation depth: "+str(avg_depth))
          self.current_state[x][y] = self.player_turn
          self.switch_player()
          
