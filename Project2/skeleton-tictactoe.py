@@ -394,7 +394,7 @@ class Game:
                scoreboard_total_evaluation_depth = dict(Counter(scoreboard_total_evaluation_depth) + Counter(self.h_by_depth))
 
             scoreboard_total_average_evaluation_depth += 1
-            scoreboard_total_average_recursion_depth +=1
+            scoreboard_total_average_recursion_depth += round(self.total_recursion_depth / self.total_moves, 2)
             scoreboard_total_average_moves += self.total_moves
 
          self.game_trace_file.writelines(F'i   - Average evaluation time: {round(self.total_time / self.total_moves, 4)}s' + "\n")
