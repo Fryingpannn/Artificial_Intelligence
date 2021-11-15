@@ -2,8 +2,21 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
 
 import time
+import copy
 import numpy as np
-from collections import defaultdict
+from collections import defaultdict, Counter
+
+scoreboard_total_wins_e1 =0
+scoreboard_total_wins_e2 =0
+scoreboard_total_average_evaluation_time = 0.0
+scoreboard_total_heuristic_evaluations = 0
+scoreboard_total_evaluation_depth = {}
+scoreboard_total_average_evaluation_depth = 0.0
+scoreboard_total_average_recursion_depth =0.0
+scoreboard_total_average_moves = 0
+scoreboard_mode = False
+
+board =[[]]
 
 class Game:
    MINIMAX = 0
@@ -30,11 +43,14 @@ class Game:
       self.total_time = 0
       self.total_moves = 0
       self.initialize_game()
+      global board
+      board = copy.deepcopy(self.current_state)
+
       self.recommend = recommend
    
    def print_stats(self):
       filename = "gameTrace-"+ str(self.size)+ str(self.number_of_block) + str(self.winning_line_up_size) + str(self.allowed_time) + ".txt"
-      self.game_trace_file = open(filename, "w") 
+      self.game_trace_file = open(filename, "a") 
       self.game_trace_file.writelines("n="+ str(self.size) + " b=" + str(self.number_of_block)+ " s="+str(self.winning_line_up_size)+" t=" + str(self.allowed_time) +"\n")
       print("n="+ str(self.size) + " b=" + str(self.number_of_block)+ " s="+str(self.winning_line_up_size)+" t=" + str(self.allowed_time))
       self.game_trace_file.writelines("blocs="+ str(self.location_of_block)+"\n")
@@ -196,19 +212,29 @@ class Game:
 
    def draw_board(self):
       print("  ", end="")
+      self.game_trace_file.writelines("  ")
       for i in range(self.size):
          print(self.letters[i], end="")
+         self.game_trace_file.writelines(self.letters[i])
       print()
+      self.game_trace_file.writelines("\n")
       print("  ", end="")
+      self.game_trace_file.writelines("  ")
       for i in range(self.size):
-         print("-", end="")
+         self.game_trace_file.writelines("-")
+         print("-")
       print()
+      self.game_trace_file.writelines("\n")
       for y in range(0, self.size):
+         self.game_trace_file.writelines(str(y) + "|")
          print(y, end="|")
          for x in range(0, self.size):
-            print(F'{self.current_state[x][y]}', end="")
+            self.game_trace_file.writelines(F'{self.current_state[x][y]}')
+            print(F'{self.current_state[x][y]}')
          print()
+         self.game_trace_file.writelines("\n")
       print()
+      self.game_trace_file.writelines("\n")
       
    def is_valid(self, px, py):
       if px.upper() not in self.nb_letters:
@@ -216,7 +242,7 @@ class Game:
       else:
          px = self.nb_letters[px.upper()]
             
-      if px < 0 or px > self.size or py < 0 or py > self.size:
+      if px < 0 or px > self.size- 1 or py < 0 or py > self.size - 1:
          return False
       elif self.current_state[px][py] != '.':
          return False
@@ -328,12 +354,21 @@ class Game:
       
       # Printing the appropriate message if the game has ended
       if self.result != None:
+         global scoreboard_total_wins_e1
+         global scoreboard_total_wins_e2
          if self.result == 'X':
             print('The winner is X!')
+            self.game_trace_file.writelines('The winner is X!'+ "\n")
+            if (scoreboard_mode):
+               scoreboard_total_wins_e1+= 1
          elif self.result == 'O':
             print('The winner is O!')
+            self.game_trace_file.writelines('The winner is O!'+ "\n")
+            if (scoreboard_mode):
+               scoreboard_total_wins_e2+= 1
          elif self.result == '.':
             print("It's a tie!")
+            self.game_trace_file.writelines("It's a tie!"+ "\n")
 
          print(F'i   - Average evaluation time: {round(self.total_time / self.total_moves, 4)}s')
          print(F'ii  - Total heuristic evaluations: {self.total_heuristics}')
@@ -341,6 +376,53 @@ class Game:
          print(F'iv  - Evaluations by depth: {dict(self.total_states_each_depth)}')
          print(F'v   - Average recursion depth: {round(self.total_recursion_depth / self.total_moves, 2)}')
          print(F'vi  - Total moves: {self.total_moves}')
+         if (scoreboard_mode):
+            global scoreboard_total_heuristic_evaluations
+            global scoreboard_total_average_evaluation_time
+            global scoreboard_total_evaluation_depth
+            global scoreboard_total_average_evaluation_depth
+            global scoreboard_total_heuristic_evaluations
+            global scoreboard_total_average_recursion_depth
+            global scoreboard_total_average_moves
+
+            scoreboard_total_average_evaluation_time += round(self.total_time / self.total_moves, 4)
+            scoreboard_total_heuristic_evaluations += self.h2_num_per_turn+self.h1_num_per_turn
+            # initializing the array
+            if (len(scoreboard_total_evaluation_depth) == 0):
+               scoreboard_total_evaluation_depth = self.h_by_depth
+            else:
+               scoreboard_total_evaluation_depth = dict(Counter(scoreboard_total_evaluation_depth) + Counter(self.h_by_depth))
+
+            scoreboard_total_average_evaluation_depth += 1
+            scoreboard_total_average_recursion_depth +=1
+            scoreboard_total_average_moves += self.total_moves
+
+         self.game_trace_file.writelines(F'i   - Average evaluation time: {round(self.total_time / self.total_moves, 4)}s' + "\n")
+         self.game_trace_file.writelines(F'ii  - Total heuristic evaluations: {self.total_heuristics}'+ "\n")
+         self.game_trace_file.writelines(F'iii - Average evaluation depth: {round(self.total_evaluation_depth / self.total_moves, 2)}'+ "\n")
+         self.game_trace_file.writelines(F'iv  - Evaluations by depth: {dict(self.total_states_each_depth)}'+ "\n")
+         self.game_trace_file.writelines(F'v   - Average recursion depth: {round(self.total_recursion_depth / self.total_moves, 2)}'+ "\n")
+         self.game_trace_file.writelines(F'vi  - Total moves: {self.total_moves}'+ "\n")
+
+         ## Resetting!!!
+         self.player_turn = 'X'
+         self.result_if_win= '.'
+         #reset stats
+         self.h1_time_per_turn = 0
+         self.h2_time_per_turn = 0
+         self.h2_num_per_turn = 0
+         self.h2_num_per_turn = 0
+         self.h_by_depth = {}
+         
+         self.total_time = 0 
+         self.total_moves = 0
+         self.total_heuristics = 0
+         self.total_evaluation_depth = 0
+         self.total_states_each_depth = defaultdict(int)
+         self.total_recursion_depth =0
+         global board
+         self.current_state.clear()
+         self.current_state = copy.deepcopy(board)
       return self.result
 
    def input_move(self):
@@ -349,6 +431,8 @@ class Game:
          px = input('Enter column letter: ').upper()
          py = int(input('Enter row number: '))
          if self.is_valid(px, py):
+            print(F'Player {self.player_turn} under Player control plays: {self.letters[px]}{py}'+ "\n")
+            self.game_trace_file.writelines(F'Player {self.player_turn} under Player control plays: {self.letters[px]}{py}')
             return (self.nb_letters[px],py)
          else:
             print('The move is not valid! Try again.')
@@ -605,6 +689,7 @@ class Game:
          player_o = self.HUMAN
       while True:
          print()
+         self.game_trace_file.writelines("\n")
          self.draw_board()
          if self.check_end():
             return
@@ -658,16 +743,53 @@ class Game:
                   print("iii Evaluations by depth:: "+str(self.h_by_depth))
                   print("iv  Average evaluation depth: "+str(avg_depth))
                   print("v   Average recursion depth: "+str(recursion_depth))
+                  self.game_trace_file.writelines(F'Player {self.player_turn} under AI control plays: {self.letters[x]}{y}'+"\n")
+                  self.game_trace_file.writelines(F'[Move #{self.total_moves}]' +"\n")
+                  self.game_trace_file.writelines(F'i  Evaluation time: {round(self.h2_time_per_turn+self.h1_time_per_turn, 7)}s'+"\n")
+                  self.game_trace_file.writelines("ii  Heuristic evaluations: "+str(self.h2_num_per_turn+self.h1_num_per_turn)+"\n")
+                  self.game_trace_file.writelines("iii Evaluations by depth:: "+str(self.h_by_depth)+"\n")
+                  self.game_trace_file.writelines("iv  Average evaluation depth: "+str(avg_depth)+"\n")
+                  self.game_trace_file.writelines("v   Average recursion depth: "+str(recursion_depth)+"\n")
          self.current_state[x][y] = self.player_turn
          self.switch_player()
          
         
 def main():
-   g = Game(recommend=True)
-   g.print_stats()
-   g.play(algo= Game.MINIMAX if g.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g.player2_is_AI else Game.HUMAN)
-   # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-   # g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN)
+   # g = Game(recommend=True)
+   # g.print_stats()
+   # g.play(algo= Game.MINIMAX if g.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g.player2_is_AI else Game.HUMAN)
+  
+   print("\n\n####FOR SCOREBOARD####")
+   
+   global scoreboard_mode
+   scoreboard_mode = True
+   r = int(input('Enter the number r: '))
+   g2 = Game(recommend=True)
+   g2.print_stats()
+   filename = "scoreboard.txt"
+   # a open a file for appending. Starts writing at the end of file. Creates a new file if file does not exist
+   score_board_text = open(filename, "a+")
+   score_board_text.writelines("n="+ str(g2.size) + " b=" + str(g2.number_of_block)+ " s="+str(g2.winning_line_up_size)+" t=" + str(g2.allowed_time) +"\n")
+   for i in range(0, r*2):
+      g2.play(algo= Game.MINIMAX if g2.selected_algorithm ==0 else Game.ALPHABETA, player_x= Game.AI if g2.player1_is_AI else Game.HUMAN ,player_o=Game.AI if g2.player2_is_AI else Game.HUMAN)
+      
+   score_board_text.writelines("Player 1: d=" +str(g2.player1_maximum_depth) +" a=" +("False" if g2.selected_algorithm == 0 else "True") + "\n")
+   score_board_text.writelines("Player 2: d=" +str(g2.player2_maximum_depth) +" a=" +("False" if g2.selected_algorithm == 0 else "True") + "\n\n")
+
+   score_board_text.writelines(str(r*2)+ " games\n\n")
+   score_board_text.writelines("Total wins for heuristic e1: "+ str(scoreboard_total_wins_e1)+ " ("+ str(scoreboard_total_wins_e1/(r*2) *100) +"%) (simple)\n")
+   score_board_text.writelines("Total wins for heuristic e2: "+ str(scoreboard_total_wins_e2)+ " ("+ str(scoreboard_total_wins_e2/(r*2) *100) +"%) (complex)\n\n")
+
+   average_evaluation_depth = 0
+   for key in scoreboard_total_evaluation_depth:
+      average_evaluation_depth += key * scoreboard_total_evaluation_depth[key]
+
+   score_board_text.writelines("i   Average evaluation time: "+ str(scoreboard_total_average_evaluation_time/scoreboard_total_heuristic_evaluations)+ "\n")
+   score_board_text.writelines("ii  Total heuristic evaluations: "+ str(scoreboard_total_heuristic_evaluations)+ "\n")
+   score_board_text.writelines("iii Evaluations by depth:"+ str(scoreboard_total_evaluation_depth) +"\n")
+   score_board_text.writelines("iv  Average evaluation depth:"+ str(average_evaluation_depth) +"\n")
+   score_board_text.writelines("v   Average recursion depth:"+ str(scoreboard_total_average_recursion_depth/(r*2)) +"\n")
+   score_board_text.writelines("vi  Average moves per game:"+ str(scoreboard_total_average_moves/(r*2)) +"\n\n\n")
 
 if __name__ == "__main__":
    main()
