@@ -222,7 +222,7 @@ class Game:
       self.game_trace_file.writelines("  ")
       for i in range(self.size):
          self.game_trace_file.writelines("-")
-         print("-")
+         print("-", end="")
       print()
       self.game_trace_file.writelines("\n")
       for y in range(0, self.size):
@@ -230,7 +230,7 @@ class Game:
          print(y, end="|")
          for x in range(0, self.size):
             self.game_trace_file.writelines(F'{self.current_state[x][y]}')
-            print(F'{self.current_state[x][y]}')
+            print(F'{self.current_state[x][y]}', end="")
          print()
          self.game_trace_file.writelines("\n")
       print()
