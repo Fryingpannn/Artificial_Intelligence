@@ -3613,18 +3613,3 @@ iv  - Evaluations by depth: {6: 477705, 5: 4666, 4: 4650, 3: 152, 2: 83, 1: 165}
 v   - Average recursion depth: 3.85
 vi  - Total moves: 18
 
-n=8 b=6 s=6 t=5
-Player 1: d=6 a=True
-Player 2: d=6 a=True
-
-10 games
-
-Total wins for heuristic e1: 0 (0.0%) (simple)
-Total wins for heuristic e2: 10 (100.0%) (complex)
-
-i   Average evaluation time: 2.3880217478378202e-06
-ii  Total heuristic evaluations: 17743557
-iii Evaluations by depth:{6: 206031, 4: 9, 3: 200, 1: 150, 5: 37}
-iv  Average evaluation depth:1237157
-v   Average recursion depth:3.8470000000000004
-vi  Average moves per game:18.0
